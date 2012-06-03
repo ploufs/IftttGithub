@@ -52,6 +52,7 @@ namespace IftttGithub
                     string DownloadUrl = string.Format("https://github.com/{0}/zipball/master", full_name);
 
                     SyndicationItem item = new SyndicationItem(name, DownloadUrl, new Uri(html_url));
+                    item.Id=string.Format("{0} {1}",name,UpdateDate.ToString("ddMMyyyy-hh:mm:ss"));
                     item.PublishDate = UpdateDate;
                     item.LastUpdatedTime = item.PublishDate;
                     item.Links.Add(new SyndicationLink(new Uri(html_url),"html url",string.Empty,"text/html",0));
