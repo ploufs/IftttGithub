@@ -46,6 +46,8 @@ namespace IftttGithub
                 foreach (var project in Projects)
                 {
                     DateTime UpdateDate = DateTime.Parse(project["updated_at"].ToString());
+                    UpdateDate = UpdateDate.AddHours(-3); //fix date
+
                     string full_name = project["full_name"].ToString();
                     string name = project["name"].ToString();
                     string html_url = project["html_url"].ToString();
