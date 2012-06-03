@@ -56,10 +56,14 @@ namespace IftttGithub
                     string full_name = project["full_name"].ToString();
                     string name = project["name"].ToString();
                     string html_url = project["html_url"].ToString();
+
+                    //add guid (detect new item)
+                    html_url += string.Format("?guid={0}", UpdateDate.ToString("ddMMyyyy-HHmmss"));
+
                     string DownloadUrl = string.Format("https://github.com/{0}/zipball/master", full_name);
 
-                    SyndicationItem item = new SyndicationItem(name, DownloadUrl, new Uri(html_url));
-                    item.Id=string.Format("{0} {1}",name,UpdateDate.ToString("ddMMyyyy-hh:mm:ss"));
+                    SyndicationItem item = new SyndicationItem(string.Format("{0} commit : {1}", name, UpdateDate.ToString("dd MMM yyyy H:mm:ss")), DownloadUrl, new Uri(html_url));
+                    item.Id=string.Format("{0} {1}",name,UpdateDate.ToString("ddMMyyyy-HH:mm:ss"));
 
                     item.Authors.Add(new SyndicationPerson(string.Empty,name,string.Empty));
                     item.PublishDate = UpdateDate;
