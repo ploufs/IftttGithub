@@ -16,7 +16,7 @@ namespace IftttGithub
         /// <returns></returns>
         public SyndicationFeed GetRssWathFromUserName(string username)
         {
-            SyndicationFeed feed = new SyndicationFeed("Watched " + username, "Github watched" + username, null, username, DateTime.Now);
+            SyndicationFeed feed = new SyndicationFeed("Watched " + username, "Github watched " + username, null, username, DateTime.Now);
 
             string url = string.Format("https://api.github.com/users/{0}/watched", username);
             var json = string.Empty;
@@ -46,15 +46,14 @@ namespace IftttGithub
                 foreach (var project in Projects)
                 {
                     DateTime UpdateDate = DateTime.Parse(project["updated_at"].ToString());
-                    DateTime PushedAt = DateTime.Parse(project["pushed_at"].ToString());
-                    string id = project["id"].ToString();
                     string full_name = project["full_name"].ToString();
                     string name = project["name"].ToString();
-                    string Description = project["description"].ToString();
+                    string html_url = project["html_url"].ToString();
                     string DownloadUrl = string.Format("https://github.com/{0}/zipball/master", full_name);
 
-                    SyndicationItem item = new SyndicationItem(name, Description, new Uri(DownloadUrl), id, UpdateDate);
+                    SyndicationItem item = new SyndicationItem(name, DownloadUrl, new Uri(html_url));
                     item.PublishDate = UpdateDate;
+                    item.LastUpdatedTime = item.PublishDate;
                     FeedItems.Add(item);
                 }
 
