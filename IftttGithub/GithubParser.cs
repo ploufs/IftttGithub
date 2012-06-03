@@ -46,7 +46,12 @@ namespace IftttGithub
                 foreach (var project in Projects)
                 {
                     DateTime UpdateDate = DateTime.Parse(project["updated_at"].ToString());
-                    UpdateDate = UpdateDate.AddHours(-3); //fix date
+
+                    TimeZone zone = TimeZone.CurrentTimeZone;
+                    // Get offset.
+                    TimeSpan offset = zone.GetUtcOffset(DateTime.Now);
+
+                    UpdateDate = UpdateDate.Add(offset); //fix date
 
                     string full_name = project["full_name"].ToString();
                     string name = project["name"].ToString();
@@ -55,6 +60,8 @@ namespace IftttGithub
 
                     SyndicationItem item = new SyndicationItem(name, DownloadUrl, new Uri(html_url));
                     item.Id=string.Format("{0} {1}",name,UpdateDate.ToString("ddMMyyyy-hh:mm:ss"));
+
+                    item.Authors.Add(new SyndicationPerson(string.Empty,name,string.Empty));
                     item.PublishDate = UpdateDate;
                     item.LastUpdatedTime = item.PublishDate;
                     item.Links.Add(new SyndicationLink(new Uri(html_url),"html url",string.Empty,"text/html",0));
