@@ -49,6 +49,25 @@ namespace IftttGithub.Test
         }
 
         [TestMethod]
+        public void GetRssWathFromUserName_SaveToHdAtomFormat()
+        {
+            var parser = new GithubParser();
+            var result = parser.GetRssWathFromUserName("ploufs");
+
+            var filename = @"c:\TestAtomFile.xml";
+
+            System.IO.File.Delete(filename);
+
+            XmlWriter xmlWriter = XmlWriter.Create(filename);
+            result.SaveAsAtom10(xmlWriter);
+            xmlWriter.Close();
+            xmlWriter.Dispose();
+
+            Assert.IsTrue(System.IO.File.Exists(filename));
+
+        }
+
+        [TestMethod]
         public void GetRssWathFromUserName_DownloadUrlIsFound()
         {
             var parser = new GithubParser();

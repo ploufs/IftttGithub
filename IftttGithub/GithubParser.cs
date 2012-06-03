@@ -54,6 +54,8 @@ namespace IftttGithub
                     SyndicationItem item = new SyndicationItem(name, DownloadUrl, new Uri(html_url));
                     item.PublishDate = UpdateDate;
                     item.LastUpdatedTime = item.PublishDate;
+                    item.Links.Add(new SyndicationLink(new Uri(html_url),"html url",string.Empty,"text/html",0));
+                    item.Links.Add(new SyndicationLink(new Uri(DownloadUrl), "download", string.Empty, string.Empty, 0));
                     FeedItems.Add(item);
                 }
 
